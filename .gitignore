@@ -1,0 +1,34 @@
+# Node.js dependencies
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables (DB credentials, secret keys)
+.env
+
+# Build outputs
+build/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor settings
+.vscode/
+.idea/
+
+# Optional: Coverage reports
+coverage/
+
+# Optional: npm package lock file if you want to ignore
+# package-lock.json
+
+# Frontend specific
+*.bak
+*.tmp
