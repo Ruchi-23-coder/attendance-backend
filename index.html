@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance Management System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <img src="kuk-logo-01.jpg" alt="KUK Logo" class="logo">
+    <h1>Kurukshetra University Attendance System</h1>
+  </header>
+
+  <!-- 3D Animation (Lottie) -->
+ <lottie-player 
+    src="https://assets2.lottiefiles.com/packages/lf20_3rwasyjy.json"  
+    background="transparent"  
+    speed="1"  
+    style="width: 300px; height: 300px; margin:auto;"  
+    loop  
+    autoplay>
+ </lottie-player>
+
+  <!-- Dashboard -->
+  <div class="card">
+    <h2>Attendance Management Dashboard</h2>
+    <p>Select your role:</p>
+    <button onclick="goToTeacher()">I am a Teacher</button>
+    <button onclick="goToStudent()">I am a Student</button>
+  </div>
+
+  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<div id="particles-js"></div>
+
+<script>
+particlesJS("particles-js", {
+  "particles": {
+    "number": { "value": 60 },
+    "size": { "value": 3 },
+    "move": { "speed": 1 },
+    "line_linked": { "enable": true }
+  }
+});
+</script>
+
+<style>
+#particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* stays in background */
+}
+</style>
+</body>
+</html>

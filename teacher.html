@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher - Manage Attendance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <img src="kuk-logo-01.jpg" alt="KUK Logo" class="logo">
+    <h1>Teacher Attendance Dashboard</h1>
+  </header>
+
+  <div class="card">
+    <h2>Generate Attendance Code</h2>
+    <form id="teacherForm">
+      <input type="text" id="className" placeholder="Enter Class (e.g. BCA-1)" required><br>
+      <input type="text" id="subject" placeholder="Enter Subject" required><br>
+      <button type="submit">Generate Code</button>
+    </form>
+
+    <p id="generatedCode" style="margin-top:15px; font-weight:bold;"></p>
+
+    <hr>
+
+    <h2>Export Attendance</h2>
+    <button onclick="exportExcel()">Download Excel</button>
+  </div>
+
+  <script>
+  let codeTimer;      // to store expiry timer
+  let countdownTimer; // to update countdown
+  let timeLeft = 0;   // seconds remaining
+
+  document.getElementById("teacherForm").addEventListener("submit", function(event){
+    event.preventDefault();
+
+    // Generate random 4-digit code
+    let randomCode = Math.floor(1000 + Math.random() * 9000); 
+    let codeElement = document.getElementById("generatedCode");
+
+    // Reset timers if a new code is generated
+    if (codeTimer) clearTimeout(codeTimer);
+    if (countdownTimer) clearInterval(countdownTimer);
+
+    timeLeft = 120; // 120 seconds = 2 minutes
+
+    // Show code + countdown
+    codeElement.innerText = `Generated Code: ${randomCode} (expires in ${timeLeft}s)`;
+    codeElement.style.color = "green";
+
+    alert("Share this code with students quickly!");
+
+    // Update countdown every second
+    countdownTimer = setInterval(() => {
+      timeLeft--;
+      if (timeLeft > 0) {
+        codeElement.innerText = `Generated Code: ${randomCode} (expires in ${timeLeft}s)`;
+      }
+    }, 1000);
+
+    // Expire after 2 minutes
+    codeTimer = setTimeout(() => {
+      clearInterval(countdownTimer); // stop countdown
+      codeElement.innerText = "Code expired ❌ Please generate a new one.";
+      codeElement.style.color = "red";
+    }, 120000); // 2 minutes
+  });
+
+  function exportExcel() {
+    alert("Attendance Excel Downloaded ✅ (Demo)");
+    // later: fetch from backend
+  }
+
+  fetch("http://localhost:4000/teacher/generate-code", {
+  method: "POST"
+})
+.then(res => res.json())
+.then(data => {
+  console.log("Response from backend:", data);
+  document.getElementById("generatedCode").innerText = "Code: " + data.code;
+})
+.catch(err => console.error(err));
+
+
+async function downloadExcel() {
+  const params = new URLSearchParams({ class: document.getElementById('className').value || '', subject: document.getElementById('subject').value || '' });
+  const url = `http://localhost:4000/api/export/excel?${params.toString()}`; // change domain for production
+
+  const res = await fetch(url);
+  if (!res.ok) { alert('Export failed'); return; }
+  const blob = await res.blob();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'attendance.xlsx';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+</script>
+
+
+</body>
+</html>
